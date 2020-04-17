@@ -1,0 +1,50 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav-content>
+
+    <div class="top-container">
+      <mat-toolbar class="mat-elevation-z3" >
+        <span>Personagens Star Wars</span>
+      </mat-toolbar>
+      
+      
+      <div class="progress-wrapper">
+        <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+      </div>
+    </div>
+
+
+    <ng-container *ngIf="!error; else errorMsg">
+      
+      <div class="filtro-filme">
+        <mat-form-field>
+          <mat-label>Film</mat-label>
+          <input type="text" matInput [formControl]="filmControl" [matAutocomplete]="filmField">
+          <mat-autocomplete #filmField="matAutocomplete" [displayWith]="displayFilm">
+            <mat-option *ngFor="let option of filteredFilms | async" [value]="option">
+              {{option.title}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <app-characters-grid 
+        [characters]="characters$ | async"
+      ></app-characters-grid>
+
+
+    </ng-container>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+<ng-template #errorMsg>
+  <div class="error-msg-wrapper">
+    <mat-icon color="warn">error_outline</mat-icon>
+
+    <div class="msg">Houve um erro. <br>Tente novamente.</div>
+      
+    <button mat-raised-button color="primary" (click)="load()">Tentar novamente</button>
+
+  </div>
+</ng-template>

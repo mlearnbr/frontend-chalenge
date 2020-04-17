@@ -1,0 +1,48 @@
+
+<div class="card mat-elevation-z6" [routerLink]="routerLink()" 
+  [ngClass]="{
+    'small-container': (isSmall$ | async),
+    'detailed': showDetail
+  }"
+>
+
+  <div class="wrapper">
+
+    <div class="grid">
+      <div class="main-character-info">
+        <div class="img-wrapper">
+          <img src="/assets/user-avatar.png">
+        </div>
+      
+        <div class="presentation">
+          <div class="title">{{ character.name }}</div>
+          <div class="subtitle">{{ character.birthYear }}</div>
+        </div>
+
+        <div class="details-wrapper">
+          <div class="species-wrapper">
+            <div class="specie-item" *ngFor="let specie of character.species">
+              {{ specie }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="showDetail">
+        <app-character-card-detail 
+          [character]="character"
+          [smallScreen]="isSmall$ | async"  
+        ></app-character-card-detail>
+      </div>
+
+    </div>
+
+
+    <div class="film-list-wrapper" *ngIf="showDetail">
+      <app-films-list [films]="character.films"></app-films-list>
+    </div>
+
+  
+  </div>
+
+</div>
